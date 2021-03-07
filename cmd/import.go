@@ -25,8 +25,6 @@ package cmd
 import (
 	"github.com/lightglitch/seekerr/importer"
 	"github.com/lightglitch/seekerr/notification"
-	"github.com/lightglitch/seekerr/notification/gotify"
-	"github.com/lightglitch/seekerr/notification/slack"
 	"github.com/lightglitch/seekerr/provider"
 	"github.com/lightglitch/seekerr/provider/imdb"
 	"github.com/lightglitch/seekerr/provider/rss"
@@ -66,9 +64,6 @@ var importCmd = &cobra.Command{
 			registry.RegisterProvider(provider.TRAKT, traktprovider.NewProvider(trakt, logger.GetLogger()))
 
 			dispatcher := notification.NewNotificationDispatcher(logger.GetLogger())
-
-			dispatcher.RegisterAgent(gotify.NewGotifyAgent(viper.Sub("notifications.gotify"), logger.GetLogger(), restyClient))
-			dispatcher.RegisterAgent(slack.NewSlackAgent(viper.Sub("notifications.slack"), logger.GetLogger(), restyClient))
 
 			config := viper.Sub("importer")
 			if viper.IsSet("revision") {
